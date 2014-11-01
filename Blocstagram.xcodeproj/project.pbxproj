@@ -9,10 +9,7 @@
 /* Begin PBXBuildFile section */
 		BF3DBBB41A035FAC00743923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3DBBB31A035FAC00743923 /* main.m */; };
 		BF3DBBB71A035FAC00743923 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3DBBB61A035FAC00743923 /* AppDelegate.m */; };
-		BF3DBBBA1A035FAC00743923 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3DBBB91A035FAC00743923 /* ViewController.m */; };
-		BF3DBBBD1A035FAC00743923 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF3DBBBB1A035FAC00743923 /* Main.storyboard */; };
 		BF3DBBBF1A035FAC00743923 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF3DBBBE1A035FAC00743923 /* Images.xcassets */; };
-		BF3DBBC21A035FAC00743923 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF3DBBC01A035FAC00743923 /* LaunchScreen.xib */; };
 		BF3DBBCE1A035FAC00743923 /* BlocstagramTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3DBBCD1A035FAC00743923 /* BlocstagramTests.m */; };
 /* End PBXBuildFile section */
 
@@ -32,11 +29,7 @@
 		BF3DBBB31A035FAC00743923 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BF3DBBB51A035FAC00743923 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BF3DBBB61A035FAC00743923 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BF3DBBB81A035FAC00743923 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		BF3DBBB91A035FAC00743923 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		BF3DBBBC1A035FAC00743923 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BF3DBBBE1A035FAC00743923 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		BF3DBBC11A035FAC00743923 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		BF3DBBC71A035FAC00743923 /* BlocstagramTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlocstagramTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3DBBCC1A035FAC00743923 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF3DBBCD1A035FAC00743923 /* BlocstagramTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlocstagramTests.m; sourceTree = "<group>"; };
@@ -83,11 +76,7 @@
 			children = (
 				BF3DBBB51A035FAC00743923 /* AppDelegate.h */,
 				BF3DBBB61A035FAC00743923 /* AppDelegate.m */,
-				BF3DBBB81A035FAC00743923 /* ViewController.h */,
-				BF3DBBB91A035FAC00743923 /* ViewController.m */,
-				BF3DBBBB1A035FAC00743923 /* Main.storyboard */,
 				BF3DBBBE1A035FAC00743923 /* Images.xcassets */,
-				BF3DBBC01A035FAC00743923 /* LaunchScreen.xib */,
 				BF3DBBB11A035FAC00743923 /* Supporting Files */,
 			);
 			path = Blocstagram;
@@ -199,8 +188,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3DBBBD1A035FAC00743923 /* Main.storyboard in Resources */,
-				BF3DBBC21A035FAC00743923 /* LaunchScreen.xib in Resources */,
 				BF3DBBBF1A035FAC00743923 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,7 +206,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3DBBBA1A035FAC00743923 /* ViewController.m in Sources */,
 				BF3DBBB71A035FAC00743923 /* AppDelegate.m in Sources */,
 				BF3DBBB41A035FAC00743923 /* main.m in Sources */,
 			);
@@ -242,25 +228,6 @@
 			targetProxy = BF3DBBC81A035FAC00743923 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		BF3DBBBB1A035FAC00743923 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BF3DBBBC1A035FAC00743923 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		BF3DBBC01A035FAC00743923 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BF3DBBC11A035FAC00743923 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		BF3DBBCF1A035FAC00743923 /* Debug */ = {
