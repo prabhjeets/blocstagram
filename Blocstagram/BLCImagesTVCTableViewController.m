@@ -7,6 +7,10 @@
 //
 
 #import "BLCImagesTVCTableViewController.h"
+#import "BLCDataSource.h"
+#import "BLCUser.h"
+#import "BLCMedia.h"
+#import "BLCComment.h"
 
 @interface BLCImagesTVCTableViewController ()
 
@@ -19,7 +23,6 @@
     
     if (self) {
     
-        self.images = [NSMutableArray array];
     }
     return self;
 }
@@ -27,13 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    for (int i=1; i<=10; i++) {
-        NSString *imageName = [NSString stringWithFormat:@"%d.jpg", i];
-        UIImage *image = [UIImage imageNamed:imageName];
-        if (image) {
-            [self.images addObject:image];
-        }
-    }
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
 }
 
@@ -45,7 +41,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.images.count;
+    return [BLCDataSource sharedInstance].mediaItems.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -64,14 +60,16 @@
         [cell.contentView addSubview:imageView];
     }
     
-    UIImage *image = self.images[indexPath.row];
-    imageView.image = image;
+    BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
+    imageView.image = item.image;
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIImage *image = self.images[indexPath.row];
+    BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
+    UIImage *image = item.image;
+    
     return (CGRectGetWidth(self.view.frame) / image.size.width ) * image.size.height;
 }
 
@@ -88,7 +86,11 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [self.images removeObjectAtIndex:indexPath.row];
+        //[self.images removeObjectAtIndex:indexPath.row];
+        NSMutableArray *tmp = [NSMutableArray arrayWithArray:[BLCDataSource sharedInstance].mediaItems];
+        [tmp removeObjectAtIndex:indexPath.row];
+        [BLCDataSource sharedInstance].mediaItems = tmp;
+        
         
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
