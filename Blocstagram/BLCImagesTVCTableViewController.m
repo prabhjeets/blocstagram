@@ -11,6 +11,7 @@
 #import "BLCUser.h"
 #import "BLCMedia.h"
 #import "BLCComment.h"
+#import "BLCMediaTableViewCell.h"
 
 @interface BLCImagesTVCTableViewController ()
 
@@ -30,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"imageCell"];
+    [self.tableView registerClass:[BLCMediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,32 +46,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"imageCell" forIndexPath:indexPath];
-    
-    // Configure the cell...
-    UIImageView *imageView = cell.imageView;
-    
-    if (!imageView) {
-        imageView = [[UIImageView alloc] init];
-        imageView.contentMode = UIViewContentModeScaleToFill;
-        
-        imageView.frame = cell.contentView.bounds;
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        
-        [cell.contentView addSubview:imageView];
-    }
-    
-    BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
-    imageView.image = item.image;
+
+    BLCMediaTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"mediaCell" forIndexPath:indexPath];
+    cell.mediaItem = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
-    UIImage *image = item.image;
     
-    return (CGRectGetWidth(self.view.frame) / image.size.width ) * image.size.height;
+    return [BLCMediaTableViewCell heightForMediaItem:item width:CGRectGetWidth(self.view.frame)];
 }
 
 
