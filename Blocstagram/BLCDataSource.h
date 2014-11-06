@@ -11,6 +11,8 @@
 
 @class BLCMedia;
 
+typedef void (^BLCNewItemCompletionBlock)(NSError *error); //completion handler
+
 @interface BLCDataSource : NSObject
 
 @property (nonatomic, strong, readonly) NSArray *mediaItems;
@@ -18,5 +20,9 @@
 + (instancetype)sharedInstance;
 
 - (void)deleteMediaItem:(BLCMedia *)item;
+
+- (void)requestNewItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler;
+
+- (void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler;
 
 @end

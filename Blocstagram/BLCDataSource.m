@@ -16,7 +16,12 @@
     NSMutableArray *_mediaItems;//Required naming format for Key
 }
 
+@property (nonatomic, assign) BOOL isRefreshing;
+@property (nonatomic, assign) BOOL isLoadingOlderItems;
+
 @end
+
+
 
 @implementation BLCDataSource
 
@@ -37,6 +42,47 @@
     //deleting this way notifies observers of the change
     NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
     [mutableArrayWithKVO removeObject:item];
+}
+
+- (void)requestNewItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
+    if (!self.isRefreshing) {
+        self.isRefreshing = YES;
+        
+        BLCMedia *media = [[BLCMedia alloc] init];
+        media.user = [self randomUser];
+        media.image = [UIImage imageNamed:@"10.jpg"];
+        media.caption = @"Bloc forgot to add the caption method";
+        //media.caption = [self randomSentence]
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO insertObject:media atIndex:0];
+        
+        self.isRefreshing = NO;
+        if (completionHandler) {
+            completionHandler(nil);
+        }
+    }
+}
+
+- (void)requestOldItemsWithCompletionHandler:(BLCNewItemCompletionBlock)completionHandler {
+    if (!self.isLoadingOlderItems) {
+        self.isLoadingOlderItems = YES;
+        
+        BLCMedia *media = [[BLCMedia alloc] init];
+        media.user = [self randomUser];
+        media.image = [UIImage imageNamed:@"5.jpg"];
+        media.caption = @"Add the caption method Bloc!";
+        //media.caption = [self randomSentence]
+        
+        NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
+        [mutableArrayWithKVO addObject:media];
+        
+        self.isLoadingOlderItems = NO;
+
+        if (completionHandler) {
+            completionHandler(nil);
+        }
+    }
 }
 
 - (instancetype) init {
