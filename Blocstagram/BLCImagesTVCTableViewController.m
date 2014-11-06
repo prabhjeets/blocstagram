@@ -19,6 +19,11 @@
 
 @implementation BLCImagesTVCTableViewController
 
+- (void)dealloc {
+    //Remove observervation
+    [[BLCDataSource sharedInstance] removeObserver:self forKeyPath:@"mediaItems"];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:style];
     
@@ -30,6 +35,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    //Register KVO - Add controller as observer of Datasource for key mediaItems
+    [[BLCDataSource sharedInstance] addObserver:self forKeyPath:@"mediaItems" options:0 context:nil];
     
     [self.tableView registerClass:[BLCMediaTableViewCell class] forCellReuseIdentifier:@"mediaCell"];
 }
@@ -66,19 +74,50 @@
     return YES;
 }
 
-
+//All Key-Value observation notifications are sent to this method
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == [BLCDataSource sharedInstance] && [keyPath isEqualToString:@"mediaItems"]) {
+        int kindOfChange = [change[NSKeyValueChangeKindKey] intValue];
+        
+        if (kindOfChange == NSKeyValueChangeSetting) {
+            //entire object replaced, reload the data
+            [self.tableView reloadData];
+        } else if (kindOfChange == NSKeyValueChangeInsertion || kindOfChange == NSKeyValueChangeRemoval || kindOfChange == NSKeyValueChangeReplacement) {
+            //incremental change
+            
+            //get list of indexes that changed
+            NSIndexSet *indexSetOfChanges = change[NSKeyValueChangeIndexesKey];
+            
+            //convert this to an array of index paths which is what tableview animation methods require
+            NSMutableArray *indexPathsThatChanged = [NSMutableArray array];
+            [indexSetOfChanges enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:idx inSection:0];
+                [indexPathsThatChanged addObject:newIndexPath];
+            }];
+            
+            //Call begin updates to tell table view of changes
+            [self.tableView beginUpdates];
+            
+            if (kindOfChange == NSKeyValueChangeInsertion) {
+                [self.tableView insertRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            } else if (kindOfChange == NSKeyValueChangeRemoval) {
+                [self.tableView deleteRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            } else if (kindOfChange == NSKeyValueChangeReplacement) {
+                [self.tableView reloadRowsAtIndexPaths:indexPathsThatChanged withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            [self.tableView endUpdates];
+        }
+    }
+}
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        //[self.images removeObjectAtIndex:indexPath.row];
-        NSMutableArray *tmp = [NSMutableArray arrayWithArray:[BLCDataSource sharedInstance].mediaItems];
-        [tmp removeObjectAtIndex:indexPath.row];
-        [BLCDataSource sharedInstance].mediaItems = tmp;
+        BLCMedia *item = [BLCDataSource sharedInstance].mediaItems[indexPath.row];
         
-        
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [[BLCDataSource sharedInstance] deleteMediaItem:item];
         
     }
 }
