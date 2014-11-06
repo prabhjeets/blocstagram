@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "BLCImagesTVCTableViewController.h"
+#import "BLCLoginViewController.h"
+#import "BLCDataSource.h"
 
 @interface AppDelegate ()
 
@@ -19,8 +21,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[BLCImagesTVCTableViewController alloc] init]];
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    [BLCDataSource sharedInstance];
+    
+    UINavigationController *navVC = [[UINavigationController alloc] init];
+    BLCLoginViewController *loginVC = [[BLCLoginViewController alloc] init];
+    
+    [navVC setViewControllers:@[loginVC] animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:BLCLoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        BLCImagesTVCTableViewController *imagesVC = [[BLCImagesTVCTableViewController alloc] init];
+        [navVC setViewControllers:@[imagesVC] animated:YES];
+    }];
+    
+    self.window.rootViewController = navVC;
     
     [self.window makeKeyAndVisible];
     return YES;
