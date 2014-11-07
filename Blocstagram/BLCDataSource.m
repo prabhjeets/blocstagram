@@ -44,6 +44,16 @@
     return sharedInstance;
 }
 
+- (instancetype) init {
+    self = [super init];
+    
+    if (self) {
+        [self registerForAccessTokenNotification];
+    }
+    
+    return self;
+}
+
 - (void)deleteMediaItem:(BLCMedia *)item {
     //deleting this way notifies observers of the change
     NSMutableArray *mutableArrayWithKVO = [self mutableArrayValueForKey:@"mediaItems"];
@@ -56,6 +66,12 @@
         self.isRefreshing = YES;
         
         NSString *minID = [[self.mediaItems firstObject] idNumber];
+        
+        //If no images, then midID will be nil, set it to ""
+        if (!minID) {
+            minID = @"";
+        }
+        
         NSDictionary *parameters = @{@"min_id": minID};
         
         [self populateDataWithParameters:parameters completionHandler:^(NSError *error) {
@@ -85,16 +101,6 @@
         }];
         
     }
-}
-
-- (instancetype) init {
-    self = [super init];
-    
-    if (self) {
-        [self registerForAccessTokenNotification];
-    }
-    
-    return self;
 }
 
 - (void)registerForAccessTokenNotification {
