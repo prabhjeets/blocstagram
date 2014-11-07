@@ -21,16 +21,17 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
 
 
 - (NSString *)redirectURI {
-    return @"http://Bloc.io";
+    return @"http://bloc.io";
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    
     NSString *urlString = [NSString stringWithFormat:@"https://instagram.com/oauth/authorize/?client_id=%@&redirect_uri=%@&response_type=token", [BLCDataSource instagramClientID], [self redirectURI]];
     
-    NSURL *url = [NSURL URLWithString:urlString];
+        NSURL *url = [NSURL URLWithString:urlString];
     
     if (url) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -80,13 +81,13 @@ NSString *const BLCLoginViewControllerDidGetAccessTokenNotification = @"BLCLogin
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     NSString *urlString = request.URL.absoluteString;
     if ([urlString hasPrefix:[self redirectURI]]) {
+    //if (urlString) {
         NSRange rangeOfAccessTokenParameter = [urlString rangeOfString:@"access_token="];
         NSUInteger indexOfTokenStarting = rangeOfAccessTokenParameter.location + rangeOfAccessTokenParameter.length;
         NSString *accessToken = [urlString substringFromIndex:indexOfTokenStarting];
         [[NSNotificationCenter defaultCenter] postNotificationName:BLCLoginViewControllerDidGetAccessTokenNotification object:accessToken];
         return NO;
     }
-    
     return YES;
 }
 
