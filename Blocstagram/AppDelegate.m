@@ -26,15 +26,19 @@
     [BLCDataSource sharedInstance];
     
     UINavigationController *navVC = [[UINavigationController alloc] init];
-    BLCLoginViewController *loginVC = [[BLCLoginViewController alloc] init];
-    
-    [navVC setViewControllers:@[loginVC] animated:YES];
-    
-    [[NSNotificationCenter defaultCenter] addObserverForName:BLCLoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+    if (![BLCDataSource sharedInstance].accessToken) {
+        BLCLoginViewController *loginVC = [[BLCLoginViewController alloc] init];
+        
+        [navVC setViewControllers:@[loginVC] animated:YES];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:BLCLoginViewControllerDidGetAccessTokenNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+            BLCImagesTVCTableViewController *imagesVC = [[BLCImagesTVCTableViewController alloc] init];
+            [navVC setViewControllers:@[imagesVC] animated:YES];
+        }];
+    } else {
         BLCImagesTVCTableViewController *imagesVC = [[BLCImagesTVCTableViewController alloc] init];
         [navVC setViewControllers:@[imagesVC] animated:YES];
-    }];
-    
+    }
     self.window.rootViewController = navVC;
     
     [self.window makeKeyAndVisible];
