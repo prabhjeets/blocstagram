@@ -9,6 +9,7 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+<<<<<<< HEAD
             filePath = "Blocstagram/BLCDataSource.m"
             timestampString = "437380550.441224"
             startingColumnNumber = "9223372036854775807"
@@ -103,14 +104,20 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
+=======
+>>>>>>> master
             filePath = "Blocstagram/BLCMedia.m"
             timestampString = "437380009.190642"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
+<<<<<<< HEAD
             endingLineNumber = "72"
             landmarkName = "-encodeWithCoder:"
             landmarkType = "5">
+=======
+            endingLineNumber = "72">
+>>>>>>> master
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
